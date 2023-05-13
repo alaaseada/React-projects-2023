@@ -9,8 +9,8 @@ function App() {
   
   const getRandomReview = () => {
     let random_index = Math.floor(Math.random() * reviews.length)
-    while(random_index === currentIndex){
-      random_index = Math.floor(Math.random() * reviews.length)
+    if(random_index === currentIndex){
+      random_index = currentIndex + 1
     }
     setCurrentIndex(random_index)
   }
