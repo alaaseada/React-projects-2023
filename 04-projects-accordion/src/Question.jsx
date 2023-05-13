@@ -1,18 +1,11 @@
-import { useState } from 'react';
 import { BsCloudMinusFill, BsCloudPlusFill } from 'react-icons/bs';
 
-function Question({ question: { title, info } }) {
-  const [isReadMore, setIsReadMore] = useState(false);
-
-  const showMore = () => {
-    setIsReadMore(!isReadMore);
-  };
-
+function Question({ question: { id, title, info }, isReadMore, onClick }) {
   return (
     <article className='question'>
       <header>
         <h5>{title}</h5>
-        <button onClick={showMore} className='question-btn'>
+        <button onClick={() => onClick(id)} className='question-btn'>
           {isReadMore ? <BsCloudMinusFill /> : <BsCloudPlusFill />}
         </button>
       </header>
