@@ -23,7 +23,7 @@ const App = () => {
         changeCount={changeCount}
       />
       <article className='lorem-text'>
-        {generatedText.map((item, index) => {
+        {generatedText.map((item) => {
           return <p key={nanoid()}>{item}</p>;
         })}
       </article>
