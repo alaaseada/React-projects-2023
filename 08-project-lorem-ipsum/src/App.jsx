@@ -8,7 +8,7 @@ const App = () => {
   const [generatedText, setGeneratedText] = useState([]);
 
   const generateText = () => {
-    setGeneratedText(text.slice(0, count));
+    setGeneratedText(text.slice(0, parseInt(count)));
   };
 
   const changeCount = (val) => {
