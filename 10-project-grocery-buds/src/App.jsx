@@ -15,17 +15,16 @@ const setLocalStorage = (items) => {
 };
 
 function App() {
-  const [groceryItems, setGroceryItems] = useState([]);
+  const [groceryItems, setGroceryItems] = useState(getLocalStorage());
 
   useEffect(() => {
-    setGroceryItems(getLocalStorage());
-  }, []);
+    setLocalStorage(groceryItems);
+  }, [groceryItems]);
 
   const addItem = (text) => {
     const new_items = groceryItems.concat({ id: nanoid(), text });
     setGroceryItems(new_items);
     toast.success(`${text} has been added.`);
-    setLocalStorage(new_items);
   };
 
   const removeItem = (id) => {
@@ -33,7 +32,6 @@ function App() {
       const new_items = groceryItems.filter((item) => item.id !== id);
       setGroceryItems(new_items);
       toast.success(`The item has been deleted.`);
-      setLocalStorage(new_items);
     } catch (err) {
       toast.error(`An error has occurred. ${err}`);
     }
