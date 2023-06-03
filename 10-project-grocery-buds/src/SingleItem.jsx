@@ -1,18 +1,23 @@
 import { useState } from 'react';
 
-function SingleItem({ item, removeItem }) {
-  const [toBeDeleted, setToBeDeleted] = useState(false);
+function SingleItem({ item, removeItem, completeItem }) {
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleRemove = () => {
     removeItem(item.id);
   };
 
+  const handleCompletion = () => {
+    setIsCompleted(!isCompleted);
+    completeItem(item.id);
+  };
+
   return (
     <div className='single-item'>
-      <input type='checkbox' onChange={() => setToBeDeleted(!toBeDeleted)} />
+      <input type='checkbox' onChange={handleCompletion} />
       <p
         style={
-          toBeDeleted
+          isCompleted
             ? { textTransform: 'capitalize', textDecoration: 'line-through' }
             : { textTransform: 'capitalize' }
         }

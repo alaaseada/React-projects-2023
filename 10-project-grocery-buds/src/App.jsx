@@ -22,9 +22,23 @@ function App() {
   }, [groceryItems]);
 
   const addItem = (text) => {
-    const new_items = groceryItems.concat({ id: nanoid(), text });
+    const new_items = groceryItems.concat({
+      id: nanoid(),
+      text,
+      completed: false,
+    });
     setGroceryItems(new_items);
     toast.success(`${text} has been added.`);
+  };
+
+  const completeItem = (id) => {
+    const new_items = groceryItems.map((item) => {
+      if (item.id === id) {
+        return { ...item, completed: !item.completed };
+      }
+      return item;
+    });
+    setGroceryItems(new_items);
   };
 
   const removeItem = (id) => {
@@ -41,7 +55,11 @@ function App() {
     <section className='section-center'>
       <ToastContainer position='top-center' />
       <Form addItem={addItem} />
-      <GroceryList groceryItems={groceryItems} removeItem={removeItem} />
+      <GroceryList
+        groceryItems={groceryItems}
+        removeItem={removeItem}
+        completeItem={completeItem}
+      />
     </section>
   );
 }

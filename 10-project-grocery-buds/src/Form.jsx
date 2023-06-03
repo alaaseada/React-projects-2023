@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function Form({ addItem }) {
   const [item, setItem] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(item);
-    setItem('');
+    if (item) {
+      addItem(item);
+      setItem('');
+    } else {
+      toast.error('Cannot add empty item');
+    }
   };
 
   return (
