@@ -3,11 +3,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function SingleColor({ color }) {
   const copyToClipboard = async () => {
-    try {
-      navigator.clipboard.writeText(color.hexString());
-      toast.success('The color has been copied to clipboard!');
-    } catch (err) {
-      toast.error(`An error occurred! ${err}`);
+    if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(color.hexString());
+        toast.success('The color has been copied to clipboard!');
+      } catch (err) {
+        toast.error(`An error occurred! ${err}`);
+      }
+    } else {
+      toast.error('Clipboard is unavailable now.');
     }
   };
 
