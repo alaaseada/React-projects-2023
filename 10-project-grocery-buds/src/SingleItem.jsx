@@ -17,9 +17,8 @@ function SingleItem({ item, removeItem, completeItem }) {
       <input type='checkbox' onChange={handleCompletion} />
       <p
         style={
-          isCompleted
-            ? { textTransform: 'capitalize', textDecoration: 'line-through' }
-            : { textTransform: 'capitalize' }
+              { textTransform: 'capitalize', 
+                textDecoration: isCompleted && 'line-through' }
         }
       >
         {item.text}
