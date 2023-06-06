@@ -269,8 +269,33 @@ body {
   background-color: transparent;
   border: none;
   transition: var(--transition);
-  animation: bounce 2s ease-in-out infinite;
   cursor: pointer;
+  animation: bounce 2s ease-in-out infinite;
+  -webkit-animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+  }
 }
 
 .sidebar-container {
@@ -377,16 +402,22 @@ main {
   z-index: -1;
   visibility: hidden;
   opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .show-modal {
   z-index: 100;
   visibility: visible;
   opacity: 1;
+  transition-duration: 2s;
+  -webkit-transition: 2s;
+  -moz-transition: 2s;
+  -ms-transition: 2s;
+  -o-transition: 2s;
 }
 
 .modal-container {
-  width: 60vw;
+  width: 90vw;
   height: 30vh;
   max-width: var(--fixed-width);
   background-color: var(--white);
