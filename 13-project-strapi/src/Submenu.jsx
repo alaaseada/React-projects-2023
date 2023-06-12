@@ -14,8 +14,14 @@ function Submenu() {
       {openedItem && (
         <div className='submenu-wrapper'>
           <h5>{openedItem.page}</h5>
-          <div className='submenu-links'>
-            {openedItem.links.map((item) => {
+          <div
+            className='submenu-links'
+            style={{
+              gridTemplateColumns:
+                openedItem.links.length > 3 ? 'repeat(2, 1fr)' : '1fr',
+            }}
+          >
+            {openedItem.links?.map((item) => {
               return (
                 <a key={item.id} className='submenu-link' href={item.url}>
                   {item.icon}

@@ -449,49 +449,58 @@ NavLinks
 /* 
 Submenu
 */
-
 .submenu-panel {
-  position: absolute;
-  top: 5rem;
-  left: 15rem;
   display: none;
-  width: var(--fluid-width);
-  max-width: var(--max-width);
-  background-color: var(--white);
-  border-radius: var(--borderRadius);
 }
-.submenu-show {
-  display: block;
-  /* transition-property: display;
-  transition-duration: 0.3s; */
-  transition: var(--transition);
-}
-.submenu-wrapper {
-  padding: 2rem;
-}
-.submenu-wrapper ul {
-  margin: 1rem 0;
-}
-.submenu-links {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, 1fr);
-}
-.submenu-wrapper h5 {
-  color: var(--primary-500);
-  margin-bottom: 1rem;
-}
-.submenu-link {
-  color: var(--grey-800);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  text-transform: capitalize;
-}
-.submenu-link svg {
-  color: var(--grey-500);
-}
-.submenu-link:hover svg {
-  color: var(--grey-800);
+
+@media screen and (min-width: 992px) {
+  .submenu-panel {
+    display: block;
+    position: fixed;
+    top: 6rem;
+    left: 50%;
+    width: var(--fluid-width);
+    max-width: var(--max-width);
+    background-color: var(--white);
+    border-radius: var(--borderRadius);
+    transform: rotateX(-90deg) translateX(-50%);
+    perspective: 1000px;
+    transform-origin: top;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+  }
+  .submenu-show {
+    opacity: 1;
+    visibility: visible;
+    transform: rotateX(0deg) translate(-50%);
+  }
+  .submenu-wrapper {
+    padding: 2rem;
+  }
+  .submenu-wrapper ul {
+    margin: 1rem 0;
+  }
+  .submenu-links {
+    display: grid;
+    width: 100%;
+  }
+  .submenu-wrapper h5 {
+    color: var(--primary-500);
+    margin-bottom: 1rem;
+  }
+  .submenu-link {
+    color: var(--grey-800);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+  }
+  .submenu-link svg {
+    color: var(--grey-500);
+  }
+  .submenu-link:hover svg {
+    color: var(--grey-800);
+  }
 }
