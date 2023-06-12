@@ -3,10 +3,14 @@ import { useGlobalContext } from './Context';
 import NavLinks from './NavLinks';
 
 function Navbar() {
-  const { openSidebar } = useGlobalContext();
-
+  const { openSidebar, closeSubmenu } = useGlobalContext();
+  const handleSubmenu = (e) => {
+    if (!e.target.classList.contains('nav-link')) {
+      closeSubmenu();
+    }
+  };
   return (
-    <nav>
+    <nav onMouseOver={handleSubmenu}>
       <div className='nav-center'>
         <h3 className='logo'>strapi</h3>
         <button className='menu-btn' onClick={openSidebar}>

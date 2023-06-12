@@ -3,6 +3,7 @@ import sublinks from './data';
 
 function NavLinks() {
   const { openSubmenu } = useGlobalContext();
+
   return (
     <div className='nav-links'>
       {sublinks.map((item) => {

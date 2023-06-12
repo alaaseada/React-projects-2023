@@ -430,10 +430,13 @@ NavLinks
   .nav-links {
     display: flex;
     justify-content: center;
+    align-self: stretch;
   }
   .nav-center {
+    align-self: stretch;
     display: grid;
     grid-template-columns: auto 1fr;
+    place-items: center;
   }
   .nav-link {
     background-color: transparent;
