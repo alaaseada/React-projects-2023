@@ -2,25 +2,28 @@ import { useGlobalContext } from './Context';
 import sublinks from './data';
 
 function Submenu() {
-  const { openedPageId, isSubmenuOpen } = useGlobalContext();
+  const { openedPageId, isSubmenuOpen, closeSubmenu } = useGlobalContext();
   return (
-    <div className={`submenu-panel ${isSubmenuOpen ? 'submenu-show' : ''}`}>
+    <div
+      className={`submenu-panel ${isSubmenuOpen ? 'submenu-show' : ''}`}
+      onMouseLeave={closeSubmenu}
+    >
       {sublinks.map((item) => {
         if (item.pageId === openedPageId) {
-          console.log(item);
           return (
-            <ul key={item.pageId}>
-              {item.links.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <a href={item.url}>
+            <div className='submenu-wrapper'>
+              <h5>{item.page}</h5>
+              <div className='submenu-links'>
+                {item.links.map((item) => {
+                  return (
+                    <a key={item.id} className='submenu-link' href={item.url}>
                       {item.icon}
                       {item.label}
                     </a>
-                  </li>
-                );
-              })}
-            </ul>
+                  );
+                })}
+              </div>
+            </div>
           );
         }
       })}

@@ -2,7 +2,7 @@ import { useGlobalContext } from './Context';
 import sublinks from './data';
 
 function NavLinks() {
-  const { openSubmenu, closeSubmenu } = useGlobalContext();
+  const { openSubmenu } = useGlobalContext();
   return (
     <div className='nav-links'>
       {sublinks.map((item) => {
@@ -11,7 +11,6 @@ function NavLinks() {
             key={item.pageId}
             className='nav-link'
             onMouseEnter={() => openSubmenu(item.pageId)}
-            onMouseOut={closeSubmenu}
           >
             {item.page}
           </button>
