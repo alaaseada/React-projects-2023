@@ -5,7 +5,9 @@ import Footer from './Footer';
 import { useAppContext } from './Context';
 
 function Cart() {
-  const { purchases } = useAppContext();
+  const {
+    state: { purchases },
+  } = useAppContext();
 
   return (
     <section className='cart'>
@@ -17,7 +19,11 @@ function Cart() {
           return <CartItem item={item} key={item.id} />;
         })}
       </div>
-      <Footer />
+      {purchases.length ? (
+        <Footer />
+      ) : (
+        <h4 className='empty-cart'>Is currently Empty</h4>
+      )}
     </section>
   );
 }

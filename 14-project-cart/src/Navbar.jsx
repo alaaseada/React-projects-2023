@@ -2,7 +2,9 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { useAppContext } from './Context';
 
 function Navbar() {
-  const { purchases } = useAppContext();
+  const {
+    state: { purchases },
+  } = useAppContext();
   const total_amount_of_purchases = purchases.reduce(
     (total, item) => total + item.amount,
     0

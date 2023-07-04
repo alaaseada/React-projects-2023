@@ -1,2 +1,5 @@
 export const CLEAR_CART = 'CLEAR_LIST';
+export const REDUCE_AMOUNT = 'REDUCE_AMOUNT';
+export const INCREASE_AMOUNT = 'INCREASE_AMOUNT';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const SET_ISLOADING = 'SET_ISLOADING';

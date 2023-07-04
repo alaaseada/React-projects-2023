@@ -1,19 +1,28 @@
 import { useAppContext } from './Context';
+import { CLEAR_CART } from './actions';
 
 function Footer() {
-  const { purchases } = useAppContext();
-  const total_price = purchases.reduce((total, item) => {
+  const { state, dispatch } = useAppContext();
+  const total_price = state.purchases.reduce((total, item) => {
     return total + parseFloat(item.price) * item.amount;
   }, 0);
+
+  const clear = () => {
+    dispatch({ type: CLEAR_CART });
+  };
+
   return (
     <footer>
       <hr />
       <div>
         <h5 className='cart-total'>
           Total
-          <span>${Math.round(total_price, 2)}</span>
+          <span>${total_price}</span>
         </h5>
       </div>
+      <button className='btn btn-hipster' onClick={clear}>
+        Clear cart
+      </button>
     </footer>
   );
 }
