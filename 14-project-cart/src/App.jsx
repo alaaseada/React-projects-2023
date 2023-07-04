@@ -2,21 +2,26 @@ import { useEffect } from 'react';
 import Cart from './Cart';
 import { useAppContext } from './Context';
 import Navbar from './Navbar';
-import { SET_ISLOADING } from './actions';
+import { useFetch } from './useFetch';
+
+const url = 'https://www.course-api.com/react-useReducer-cart-project';
 
 function App() {
   const {
     state: { isLoading },
-    dispatch,
+    displayItems,
+    setLoading,
   } = useAppContext();
 
-  const changeLoading = () => {
-    dispatch({ type: SET_ISLOADING, payload: { status: false } });
-  };
-
   useEffect(() => {
-    const loading_timer = setTimeout(changeLoading, 3000);
-    return () => clearTimeout(loading_timer);
+    const { data } = useFetch(url);
+    if (data) {
+      console.log(data);
+      displayItems(data);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
   }, []);
 
   return (

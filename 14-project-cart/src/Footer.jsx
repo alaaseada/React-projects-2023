@@ -2,14 +2,7 @@ import { useAppContext } from './Context';
 import { CLEAR_CART } from './actions';
 
 function Footer() {
-  const { state, dispatch } = useAppContext();
-  const total_price = state.purchases.reduce((total, item) => {
-    return total + parseFloat(item.price) * item.amount;
-  }, 0);
-
-  const clear = () => {
-    dispatch({ type: CLEAR_CART });
-  };
+  const { totalCost, clearItems } = useAppContext();
 
   return (
     <footer>
@@ -17,10 +10,10 @@ function Footer() {
       <div>
         <h5 className='cart-total'>
           Total
-          <span>${total_price}</span>
+          <span>${totalCost}</span>
         </h5>
       </div>
-      <button className='btn btn-hipster' onClick={clear}>
+      <button className='btn btn-hipster' onClick={clearItems}>
         Clear cart
       </button>
     </footer>
