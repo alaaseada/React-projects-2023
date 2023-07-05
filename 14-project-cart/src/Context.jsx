@@ -13,13 +13,10 @@ import {
 import { getTotals } from './utils';
 
 // variables
-// const cartItemsMap = new Map(data.map((item) => [item.id, item]));
-// const defaultState = {
-//   cartItems: cartItemsMap,
-//   isLoading: true,
-// };
+const url = 'https://www.course-api.com/react-useReducer-cart-project';
+const cartItemsMap = new Map();
 const defaultState = {
-  cartItems: new Map(),
+  cartItems: cartItemsMap,
   isLoading: false,
 };
 
@@ -47,16 +44,23 @@ export const Context = ({ children }) => {
   const displayItems = (data) => {
     dispatch({ type: DISPLAY_ITEMS, payload: { data } });
   };
-  const setLoading = (isLoading) => {
-    dispatch({ type: SET_ISLOADING, payload: { isLoading } });
+  const fetchData = async () => {
+    dispatch({ type: SET_ISLOADING, payload: { isLoading: true } });
+    const response = await fetch(url);
+    const data = await response.json();
+    dispatch({ type: DISPLAY_ITEMS, payload: { data } });
+    dispatch({ type: SET_ISLOADING, payload: { isLoading: false } });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <AppContext.Provider
       value={{
         state,
         displayItems,
-        setLoading,
         clearItems,
         increaseAmount,
         reduceAmount,

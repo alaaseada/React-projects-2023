@@ -63,7 +63,10 @@ export const reducer = (state, action) => {
 
     // Display Items
     case DISPLAY_ITEMS:
-      return { ...state, cartItems: action.payload.data };
+      const data_map = new Map(
+        action.payload.data.map((item) => [item.id, item])
+      );
+      return { ...state, cartItems: data_map };
     // Default if no match
     default:
       throw new Error(`No Matching ${action.type} action.`);
