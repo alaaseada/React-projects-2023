@@ -1,11 +1,12 @@
-import React from 'react';
 import { useGlobalContext } from './Context';
 
 function SearchForm() {
-  const { keyword, handleSearchKeyChange, performSearch } = useGlobalContext();
+  const { setKeyword } = useGlobalContext();
   const handleSubmit = (e) => {
     e.preventDefault();
-    performSearch(keyword);
+    const searchKeyword = e.target.elements.search.value;
+    if (!searchKeyword) return;
+    setKeyword(searchKeyword);
   };
   return (
     <form className='search-form' onSubmit={handleSubmit}>
@@ -15,7 +16,6 @@ function SearchForm() {
         name='search'
         id='search'
         placeholder='cat'
-        onChange={(e) => handleSearchKeyChange(e.target.value)}
       />
       <button className='btn' type='submit'>
         Search

@@ -1,34 +1,37 @@
 import { useState, useEffect, useContext, createContext } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
 
+const getInitialPreferredMode = () => {
+  const darkModeIsPreferred =
+    window.matchMedia('(prefers-color-scheme:dark)').matches ||
+    localStorage.getItem('darkTheme') === 'true';
+  return darkModeIsPreferred;
+};
+
 export const AppContextProvider = ({ children }) => {
-  const [isDarkTheme, setIsDrakTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(getInitialPreferredMode());
   const [keyword, setKeyword] = useState('cat');
-  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    body.classList.toggle('dark-theme', isDarkTheme);
+  }, [isDarkTheme]);
 
   const toggleTheme = () => {
-    setIsDrakTheme(!isDarkTheme);
-    const body = document.querySelector('body');
-    body.classList.toggle('dark-theme', !isDarkTheme);
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    localStorage.setItem('darkTheme', newTheme);
   };
 
-  const handleSearchKeyChange = (text) => {
-    setKeyword(text);
-  };
-  const performSearch = () => {
-    queryClient.invalidateQueries({ queryKey: ['filterImages'] });
-  };
   return (
     <GlobalContext.Provider
       value={{
         isDarkTheme,
         toggleTheme,
         keyword,
-        handleSearchKeyChange,
-        performSearch,
+        setKeyword,
       }}
     >
       {children}

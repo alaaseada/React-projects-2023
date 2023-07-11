@@ -6,10 +6,25 @@ function Gallery() {
   const { data, isLoading, isError } = useFetchImages(keyword);
 
   if (isLoading) {
-    return <p>Loading....</p>;
+    return (
+      <div className='image-container'>
+        <h4>Loading....</h4>
+      </div>
+    );
   }
   if (isError) {
-    return <p>Something wrong occurred</p>;
+    return (
+      <div className='image-container'>
+        <h4>Something wrong occurred</h4>
+      </div>
+    );
+  }
+  if (!data?.results.length) {
+    return (
+      <div className='image-container'>
+        <h4>No results found.</h4>
+      </div>
+    );
   }
   return (
     <section className='image-container'>
@@ -17,9 +32,9 @@ function Gallery() {
         return (
           <img
             key={image.id}
-            src={image.urls.regular}
+            src={image?.urls?.regular}
             className='img'
-            alt={'image'}
+            alt={image.alt_description}
           />
         );
       })}

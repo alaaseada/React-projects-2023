@@ -2,18 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import customFetch from './utils';
 
 export const useFetchImages = (keyword) => {
-  const result = useQuery({
-    queryKey: ['filterImages'],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['filterImages', keyword],
     queryFn: async () => {
-      const url = `/search/photos?query=${keyword}`;
+      const url = `/search/photos?query=${keyword}&page=1`;
       const { data } = await customFetch(url);
       return data;
     },
   });
-  console.log(result);
   return {
-    data: result.data,
-    isError: result.isError,
-    isLoading: result.isLoading,
+    data,
+    isError,
+    isLoading,
   };
 };
