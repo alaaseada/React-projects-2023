@@ -1,7 +1,8 @@
 import React from 'react';
+import CocktailItem from '../components/CocktailItem';
 
 const Cocktail = () => {
-  return <div>Cocktail</div>;
+  return <CocktailItem />;
 };
 
 export default Cocktail;

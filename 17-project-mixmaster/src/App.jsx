@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   Landing,
   HomeLayout,
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: '/cocktail',
+        path: '/cocktail/:id',
         element: <Cocktail />,
       },
       {
@@ -36,7 +37,13 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+const queryClient = new QueryClient();
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 };
 export default App;
