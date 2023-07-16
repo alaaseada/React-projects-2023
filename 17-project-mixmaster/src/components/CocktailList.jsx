@@ -1,14 +1,27 @@
 import Wrapper from '../assets/wrappers/CocktailList';
-import useFetchData from './FetchData';
 import CocktailCard from '../components/CocktailCard';
-import { useLocation } from 'react-router-dom';
 
-const CocktailList = ({ keyword }) => {
-  const cocktails = useFetchData(keyword);
+const CocktailList = ({ drinks }) => {
+  if (!drinks) {
+    return (
+      <h4 style={{ textAlign: 'center' }}>
+        No matching cocktails were found...
+      </h4>
+    );
+  }
   return (
     <Wrapper>
-      {cocktails?.map((drink) => {
-        return <CocktailCard key={drink.idDrink} card={drink} />;
+      {drinks.map((drink) => {
+        const { idDrink, strDrink, strDrinkThumb, strAlcoholic, strGlass } =
+          drink;
+        const card = {
+          id: idDrink,
+          title: strDrink,
+          image: strDrinkThumb,
+          info: strAlcoholic,
+          glass: strGlass,
+        };
+        return <CocktailCard key={idDrink} card={card} />;
       })}
     </Wrapper>
   );

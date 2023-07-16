@@ -1,17 +1,17 @@
 import Wrapper from '../assets/wrappers/CocktailCard';
 import { NavLink } from 'react-router-dom';
 
-const CocktailCard = ({ card }) => {
+const CocktailCard = ({ card: { id, title, image, info, glass } }) => {
   return (
     <Wrapper>
       <div className='img-container'>
-        <img src={card.strDrinkThumb} alt={card.strDrink} className='img' />
+        <img src={image} alt={title} className='img' />
       </div>
       <div className='footer'>
-        <h4>{card.strDrink}</h4>
-        <h5>{card.strGlass}</h5>
-        <p>{card.strAlcoholic}</p>
-        <NavLink className='btn' to={`/cocktail/${card.idDrink}`}>
+        <h4>{title}</h4>
+        <h5>{glass}</h5>
+        <p>{info}</p>
+        <NavLink className='btn' to={`/cocktail/${id}`}>
           Details
         </NavLink>
       </div>

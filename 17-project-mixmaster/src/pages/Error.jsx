@@ -15,6 +15,7 @@ const Error = () => {
             <p>We can't seem to find page you are looking for</p>
           </>
         )}
+        <p>{error.message}</p>
         <Link to='/'>Back Home</Link>
       </div>
     </Wrapper>

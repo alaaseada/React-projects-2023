@@ -1,16 +1,21 @@
 import SearchForm from '../components/SearchForm';
 import CocktailList from '../components/CocktailList';
-import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import axios from 'axios';
+const baseURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
+export const loader = async () => {
+  const keyword = '';
+  const { data } = await axios.get(`${baseURL}${keyword}`);
+  return { drinks: data.drinks, keyword };
+};
 
 const Landing = () => {
-  const [keyword, setKeyword] = useState('');
-  const changeSearchKeyword = (newKeyword) => {
-    setKeyword(newKeyword);
-  };
+  const { drinks, keyword } = useLoaderData();
   return (
     <>
-      <SearchForm changeSearchKeyword={changeSearchKeyword} />
-      <CocktailList keyword={keyword} />
+      <SearchForm />
+      <CocktailList drinks={drinks} />
     </>
   );
 };
