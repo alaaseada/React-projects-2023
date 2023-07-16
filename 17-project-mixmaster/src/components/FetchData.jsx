@@ -1,23 +1,24 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 const baseURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
 const useFetchData = (keyword) => {
   const getData = async () => {
-    const { data } = await axios.get(`${baseURL}${keyword}`);
-    console.log('I am here');
-    return data;
+    try {
+      const { data } = await axios.get(`${baseURL}${keyword}`);
+      return data;
+    } catch (err) {
+      console.log(err);
+      return;
+    }
   };
 
-  const {
-    data: { drinks },
-  } = useQuery({
+  const { data } = useQuery({
     queryKey: ['getCocktails', keyword],
     queryFn: getData,
   });
-
+  const drinks = data ? data.drinks : [];
   return drinks;
 };
 

@@ -1,25 +1,22 @@
-import axios from 'axios';
 import Wrapper from '../assets/wrappers/CocktailPage';
 import { useParams, NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 const baseURL = 'https://www.thecocktaildb.com/api/json/v1/1';
 
 const CocktailItem = () => {
-  const [drink, setDrink] = useState({});
   const { id } = useParams();
-  const getDrink = async () => {
-    const {
-      data: { drinks },
-    } = await axios.get(`${baseURL}/lookup.php?i=${id}`);
-    console.log(drinks[0]);
-    setDrink(drinks[0]);
-  };
 
-  useEffect(() => {
-    getDrink();
-  }, []);
+  const { data } = useQuery({
+    queryKey: ['getCocktailById'],
+    queryFn: async () => {
+      const { data } = await axios.get(`${baseURL}/lookup.php?i=${id}`);
+      return data;
+    },
+  });
 
+  const drink = data ? data.drinks[0] : {};
   const ingredientKeys = Object.keys(drink).filter(
     (key) => key.startsWith('strIngredient') && drink[key]
   );
