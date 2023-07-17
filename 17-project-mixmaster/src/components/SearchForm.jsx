@@ -1,21 +1,23 @@
-import { useLocation } from 'react-router-dom';
+import { Form, redirect, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/SearchForm';
 
-const SearchForm = ({ changeSearchKeyword }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newKeyword = e.target.parentElement.elements['keyword'].value;
-    changeSearchKeyword(newKeyword);
-  };
-
+const SearchForm = ({ keyword }) => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
   return (
     <Wrapper>
-      <form className='form'>
-        <input className='form-input' type='text' name='keyword' id='keyword' />
-        <button className='btn' onClick={handleSubmit}>
-          Search
+      <Form className='form'>
+        <input
+          className='form-input'
+          type='text'
+          name='search'
+          id='search'
+          defaultValue={keyword}
+        />
+        <button className='btn' disabled={isSubmitting}>
+          {isSubmitting ? 'Searching' : 'Search'}
         </button>
-      </form>
+      </Form>
     </Wrapper>
   );
 };
