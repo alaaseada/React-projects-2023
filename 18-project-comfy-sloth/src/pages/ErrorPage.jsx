@@ -1,46 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useRouteError } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const ErrorPage = () => {
-  const error = useRouteError();
   return (
-    <Wrapper>
-      {error.status === 404 ? (
-        <>
-          <img src='/404-not-found.svg' alt='Not Found' />
-          <h3>Ohh!!!!</h3>
-          <p>We cannot seem to find page you are looking for</p>
-        </>
-      ) : (
-        <h4>Something wrong occurred</h4>
-      )}
-      <Link to='/'>Go back to Home page</Link>
+    <Wrapper className='page-100'>
+      <section>
+        <h1>404</h1>
+        <h3>Ohh, the page you requested is not found!!!!</h3>
+        <Link to='/' className='btn'>
+          Go back to Home page
+        </Link>
+      </section>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   background: var(--clr-primary-10);
-  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  img {
-    width: 90vw;
-    max-width: 600px;
-    margin-bottom: 2rem;
+  h1 {
+    font-size: 10rem;
   }
   h3 {
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    line-height: 1.5;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    color: var(--grey-500);
-  }
-  a {
-    color: var(--primary-500);
-    text-transform: capitalize;
+    text-transform: none;
+    margin-bottom: 2rem;
   }
 `;
 

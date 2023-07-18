@@ -15,7 +15,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const SingleProductPage = () => {
-  return <h4>single product page</h4>;
+  return (
+    <main>
+      <PageHero title='Comfy Sofa' />
+      <h4>single product page</h4>
+    </main>
+  );
 };
 
 const Wrapper = styled.main`

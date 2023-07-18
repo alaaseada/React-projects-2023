@@ -15,7 +15,7 @@ const app_router = createBrowserRouter([
   {
     path: '/',
     element: <SharedLayout />,
-    errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -44,6 +44,10 @@ const app_router = createBrowserRouter([
             <CheckoutPage />
           </PrivateRoute>
         ),
+      },
+      {
+        path: '/error',
+        element: <ErrorPage />,
       },
       {
         path: '/login',
