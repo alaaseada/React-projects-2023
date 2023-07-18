@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import { FaBars } from 'react-icons/fa';
@@ -9,22 +8,24 @@ import { useProductsContext } from '../context/products_context';
 import { useUserContext } from '../context/user_context';
 
 const Nav = () => {
+  const { openSidebar } = useProductsContext();
   return (
     <NavContainer>
       <div className='nav-center'>
         <div className='nav-header'>
-          <a>
+          <Link to='/'>
             <img src={logo} alt={'Comfy Sloth'} />
-          </a>
-          <button className='nav-toggle'>
+          </Link>
+          <button className='nav-toggle' onClick={openSidebar}>
             <FaBars />
           </button>
         </div>
         <div className='nav-links'>
           {links.map((link) => {
+            const { id, text, url } = link;
             return (
-              <Link key={link.id} to={link.url}>
-                {link.text}
+              <Link key={id} to={url}>
+                {text}
               </Link>
             );
           })}

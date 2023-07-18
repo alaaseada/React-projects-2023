@@ -9,18 +9,18 @@ import { useUserContext } from '../context/user_context';
 const CartButtons = () => {
   const userLoggedIn = false;
   return (
-    <Wrapper>
-      <a className='cart-btn'>
+    <Wrapper className='cart-btn-wrapper'>
+      <Link className='cart-btn' to='/cart'>
         Cart
         <span className='cart-container'>
           <FaShoppingCart />
           <span className='cart-value'>{0}</span>
         </span>
-      </a>
+      </Link>
       <button className='auth-btn'>
         {userLoggedIn ? (
           <>
-            Logout <FaUserPlus />
+            Logout <FaUserMinus />
           </>
         ) : (
           <>
