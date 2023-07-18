@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 import { data } from '../../../data';
 import { CLEAR_LIST, RESET_LIST, REMOVE_ITEM } from './actions';
 import reducer from './reducer';
