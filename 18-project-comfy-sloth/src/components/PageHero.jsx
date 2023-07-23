@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const PageHero = ({ title }) => {
+const PageHero = ({ title, product }) => {
   return (
     <Wrapper>
       <h3>
-        <Link to='/'>Home</Link>/ {title}
+        <Link to='/'>Home</Link>
+        {product && <Link to='/products'>/ Prodcuts /</Link>}
+        {title}
       </h3>
     </Wrapper>
   );
