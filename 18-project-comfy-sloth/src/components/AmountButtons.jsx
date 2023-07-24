@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const AmountButtons = ({ maximum }) => {
+const AmountButtons = ({ amount, increaseAmount, decreaseAmount }) => {
   return (
     <Wrapper className='amount-btns'>
-      <button className='amount-btn'>
+      <button className='amount-btn' onClick={decreaseAmount}>
         <FaMinus />
       </button>
-      <h2 className='amount'>1</h2>
-      <button className='amount-btn'>
+      <h2 className='amount'>{amount}</h2>
+      <button className='amount-btn' onClick={increaseAmount}>
         <FaPlus />
       </button>
     </Wrapper>

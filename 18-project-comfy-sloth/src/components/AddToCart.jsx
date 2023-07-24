@@ -5,8 +5,22 @@ import { FaCheck } from 'react-icons/fa';
 import { useCartContext } from '../context/cart_context';
 import AmountButtons from './AmountButtons';
 
-const AddToCart = ({ colors, stock }) => {
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+const AddToCart = ({ id, colors, stock }) => {
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [amount, setAmount] = useState(1);
+
+  const increaseAmount = () => {
+    setAmount((prevState) => {
+      return prevState < stock ? prevState + 1 : stock;
+    });
+  };
+
+  const decreaseAmount = () => {
+    setAmount((prevState) => {
+      return prevState > 1 ? prevState - 1 : 1;
+    });
+  };
+
   return (
     <Wrapper>
       {colors && (
@@ -18,12 +32,12 @@ const AddToCart = ({ colors, stock }) => {
                 <button
                   key={index}
                   className={`color-btn ${
-                    index === selectedColorIndex ? 'active' : ''
+                    color === selectedColor ? 'active' : ''
                   }`}
                   style={{ backgroundColor: color }}
-                  onClick={() => setSelectedColorIndex(index)}
+                  onClick={() => setSelectedColor(color)}
                 >
-                  {index === selectedColorIndex && <FaCheck />}
+                  {color === selectedColor && <FaCheck />}
                 </button>
               );
             })}
@@ -31,8 +45,12 @@ const AddToCart = ({ colors, stock }) => {
         </div>
       )}
       <div className='btn-container'>
-        <AmountButtons maximum={stock} />
-        <Link to='./checkout' className='btn'>
+        <AmountButtons
+          increaseAmount={increaseAmount}
+          decreaseAmount={decreaseAmount}
+          amount={amount}
+        />
+        <Link to='/checkout' className='btn'>
           Add to cart
         </Link>
       </div>

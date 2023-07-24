@@ -1,12 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Filters, ProductList, Sort, PageHero } from '../components';
+import { useFilterContext } from '../context/filter_context';
 
 const ProductsPage = () => {
+  const { filtered_products, view } = useFilterContext();
   return (
     <main>
       <PageHero title='Products' />
-      <h4>products page</h4>
+      <Wrapper className='page'>
+        <div className='section-center products'>
+          <Filters />
+          <div>
+            <Sort num_of_products={filtered_products.length} />
+            <ProductList products={filtered_products} view={view} />
+          </div>
+        </div>
+      </Wrapper>
     </main>
   );
 };

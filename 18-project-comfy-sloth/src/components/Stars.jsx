@@ -19,7 +19,7 @@ const Stars = ({ stars, reviews }) => {
           </span>
         );
       })}
-      <p>{`(${stars} - ${reviews} customer reviews)`}</p>
+      <p>{`(${reviews} customer reviews)`}</p>
     </Wrapper>
   );
 };
