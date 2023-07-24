@@ -19,17 +19,17 @@ const filter_reducer = (state, action) => {
     };
   }
   if (action_type === SET_GRIDVIEW) {
-    return { ...state, view: 'grid' };
+    return { ...state, grid_view: true };
   }
   if (action_type === SET_LISTVIEW) {
-    return { ...state, view: 'list' };
+    return { ...state, grid_view: false };
   }
   if (action_type === UPDATE_SORT) {
     return { ...state, sort_method: action.payload.sort_method };
   }
   if (action_type === SORT_PRODUCTS) {
     const sort_method = state.sort_method;
-    let sorted_list = [];
+    let sorted_list = [...state.filtered_products];
     switch (sort_method) {
       case 'price_asc':
         sorted_list = state.filtered_products.sort((a, b) => a.price - b.price);
@@ -39,12 +39,12 @@ const filter_reducer = (state, action) => {
         break;
       case 'name_asc':
         sorted_list = state.filtered_products.sort((a, b) =>
-          a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+          a.name.localeCompare(b.name)
         );
         break;
       case 'name_desc':
         sorted_list = state.filtered_products.sort((a, b) =>
-          b.name < a.name ? -1 : b.name > a.name ? 1 : 0
+          b.name.localeCompare(a.name)
         );
         break;
     }

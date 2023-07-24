@@ -4,7 +4,11 @@ import Product from '../components/Product';
 
 const ProductList = ({ products, view }) => {
   if (products.length === 0) {
-    return <h3>Sorry, there are no products match your search.</h3>;
+    return (
+      <h5 style={{ textTransform: 'None' }}>
+        Sorry, there are no products match your search.
+      </h5>
+    );
   }
   const product_view =
     view === 'grid' ? (

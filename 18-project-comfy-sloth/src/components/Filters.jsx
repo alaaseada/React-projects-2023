@@ -1,12 +1,119 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useFilterContext } from '../context/filter_context'
-import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck } from 'react-icons/fa'
+import styled from 'styled-components';
+import { useFilterContext } from '../context/filter_context';
+import { getUniqueValues, formatPrice } from '../utils/helpers';
+import { FaCheck } from 'react-icons/fa';
+import { useState } from 'react';
 
 const Filters = () => {
-  return <h4>filters</h4>
-}
+  const { all_products } = useFilterContext();
+  const unique_categories = getUniqueValues(all_products, 'category');
+  const unique_companies = getUniqueValues(all_products, 'company');
+  const unique_colors = getUniqueValues(all_products, 'colors');
+  const max_price = Math.max(...all_products.map((p) => p.price));
+  const [filterCriteria, setFilterCriteria] = useState({
+    text: '',
+    category: 'all',
+    company: 'all',
+    color: 'all',
+    price: parseInt(max_price),
+    free_shipping: false,
+  });
+  return (
+    <Wrapper>
+      <div className='content'>
+        <form>
+          <div className='form-control'>
+            <input
+              type='text'
+              name='text'
+              id='text'
+              className='search-input'
+              placeholder='Search'
+              onChange={(e) =>
+                setFilterCriteria({ ...filterCriteria, text: e.target.value })
+              }
+            />
+          </div>
+          <div className='form-control'>
+            <h5>Category</h5>
+            <div>
+              <button name='category' type='button'>
+                All
+              </button>
+              {unique_categories.map((category, index) => {
+                return (
+                  <button key={index} name='category' type='button'>
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className='form-control'>
+            <h5>Company</h5>
+            <select name='company' className='company'>
+              <option name='company' value='all'>
+                all
+              </option>
+              {unique_companies.map((company, index) => {
+                return (
+                  <option key={index} name='company' value={company}>
+                    {company}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className='form-control'>
+            <h5>Colors</h5>
+            <div className='colors'>
+              <button className='all-btn active' name='color' data-color='all'>
+                All
+              </button>
+              {unique_colors.map((color, index) => {
+                return (
+                  <button
+                    key={index}
+                    name='color'
+                    className='color-btn'
+                    data-color={color}
+                    style={{ backgroundColor: color }}
+                  ></button>
+                );
+              })}
+            </div>
+          </div>
+          <div className='form-control'>
+            <h5>Price</h5>
+            <p className='price'>{formatPrice(filterCriteria.price)}</p>
+            <input
+              type='range'
+              name='price'
+              value={filterCriteria.price}
+              min={0}
+              max={max_price}
+              onChange={(e) =>
+                setFilterCriteria({
+                  ...filterCriteria,
+                  price: parseInt(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div className='form-control shipping'>
+            <label htmlFor='shipping'>Free Shipping</label>
+            <input
+              type='checkbox'
+              name='shipping'
+              id='shipping'
+              checked={filterCriteria.free_shipping}
+            />
+          </div>
+        </form>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   .form-control {
@@ -106,6 +213,6 @@ const Wrapper = styled.section`
       top: 1rem;
     }
   }
-`
+`;
 
-export default Filters
+export default Filters;

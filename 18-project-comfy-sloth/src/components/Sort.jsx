@@ -3,23 +3,24 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import styled from 'styled-components';
 const Sort = ({ num_of_products }) => {
   const {
-    view,
+    grid_view,
     changeToGridView,
     changeToListView,
     updateSortMethod,
     sort_method,
   } = useFilterContext();
+
   return (
     <Wrapper>
       <div className='btn-container'>
         <button
-          className={view === 'grid' ? 'active' : null}
+          className={grid_view ? 'active' : null}
           onClick={changeToGridView}
         >
           <BsFillGridFill />
         </button>
         <button
-          className={view === 'list' ? 'active' : null}
+          className={!grid_view ? 'active' : null}
           onClick={changeToListView}
         >
           <BsList />

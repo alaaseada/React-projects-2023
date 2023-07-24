@@ -16,7 +16,7 @@ import filter_reducer from '../reducers/filter_reducer';
 const initialState = {
   filtered_products: [],
   all_products: [],
-  view: 'grid',
+  grid_view: true,
   sort_method: 'price_asc',
 };
 
@@ -28,8 +28,11 @@ export const FilterProvider = ({ children }) => {
 
   useEffect(() => {
     dispatch({ type: LOAD_PRODUCTS, payload: { products } });
-    dispatch({ type: SORT_PRODUCTS });
   }, [products]);
+
+  useEffect(() => {
+    dispatch({ type: SORT_PRODUCTS });
+  }, [products, state.sort_method]);
 
   const changeToGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
