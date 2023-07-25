@@ -1,8 +1,9 @@
 import GridView from './GridView';
 import ListView from './ListView';
-import Product from '../components/Product';
+import { useFilterContext } from '../context/filter_context';
 
-const ProductList = ({ products, view }) => {
+const ProductList = () => {
+  const { filtered_products: products, grid_view } = useFilterContext();
   if (products.length === 0) {
     return (
       <h5 style={{ textTransform: 'None' }}>
@@ -10,12 +11,11 @@ const ProductList = ({ products, view }) => {
       </h5>
     );
   }
-  const product_view =
-    view === 'grid' ? (
-      <GridView products={products} />
-    ) : (
-      <ListView products={products} />
-    );
+  const product_view = grid_view ? (
+    <GridView products={products} />
+  ) : (
+    <ListView products={products} />
+  );
   return product_view;
 };
 

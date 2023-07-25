@@ -1,27 +1,40 @@
 import styled from 'styled-components';
 import { useFilterContext } from '../context/filter_context';
-import { getUniqueValues, formatPrice } from '../utils/helpers';
+import { getUniqueValues, formatPrice, getMaxPrice } from '../utils/helpers';
 import { FaCheck } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Filters = () => {
-  const { all_products } = useFilterContext();
+  const { all_products, filters, updateFilters, clearFilters } =
+    useFilterContext();
   const unique_categories = getUniqueValues(all_products, 'category');
   const unique_companies = getUniqueValues(all_products, 'company');
   const unique_colors = getUniqueValues(all_products, 'colors');
-  const max_price = Math.max(...all_products.map((p) => p.price));
-  const [filterCriteria, setFilterCriteria] = useState({
-    text: '',
-    category: 'all',
-    company: 'all',
-    color: 'all',
-    price: parseInt(max_price),
-    free_shipping: false,
-  });
+  const maxPrice = getMaxPrice(all_products);
+
+  const eventHandler = (e) => {
+    e.preventDefault();
+    const event_source = e.target.name;
+    let new_value;
+
+    if (e.target.type === 'button') {
+      if (e.target.dataset.color) {
+        new_value = e.target.dataset.color;
+      } else {
+        new_value = e.target.innerText.toLowerCase();
+      }
+    } else {
+      new_value = e.target.value;
+    }
+    console.log(new_value);
+    updateFilters({ ...filters, [event_source]: new_value });
+  };
+
   return (
     <Wrapper>
       <div className='content'>
         <form>
+          {/* Name */}
           <div className='form-control'>
             <input
               type='text'
@@ -29,29 +42,46 @@ const Filters = () => {
               id='text'
               className='search-input'
               placeholder='Search'
-              onChange={(e) =>
-                setFilterCriteria({ ...filterCriteria, text: e.target.value })
-              }
+              onChange={(e) => eventHandler(e)}
             />
           </div>
+
+          {/* Category */}
           <div className='form-control'>
             <h5>Category</h5>
             <div>
-              <button name='category' type='button'>
+              <button
+                name='category'
+                onClick={(e) => eventHandler(e)}
+                type='button'
+                className={filters.category === 'all' ? 'active' : null}
+              >
                 All
               </button>
               {unique_categories.map((category, index) => {
                 return (
-                  <button key={index} name='category' type='button'>
+                  <button
+                    onClick={(e) => eventHandler(e)}
+                    key={index}
+                    name='category'
+                    type='button'
+                    className={category === filters.category ? 'active' : null}
+                  >
                     {category}
                   </button>
                 );
               })}
             </div>
           </div>
+
+          {/* Company */}
           <div className='form-control'>
             <h5>Company</h5>
-            <select name='company' className='company'>
+            <select
+              name='company'
+              className='company'
+              onChange={(e) => eventHandler(e)}
+            >
               <option name='company' value='all'>
                 all
               </option>
@@ -64,10 +94,18 @@ const Filters = () => {
               })}
             </select>
           </div>
+
+          {/* Colors */}
           <div className='form-control'>
             <h5>Colors</h5>
             <div className='colors'>
-              <button className='all-btn active' name='color' data-color='all'>
+              <button
+                className='all-btn active'
+                onClick={(e) => eventHandler(e)}
+                name='color'
+                data-color='all'
+                type='button'
+              >
                 All
               </button>
               {unique_colors.map((color, index) => {
@@ -78,37 +116,38 @@ const Filters = () => {
                     className='color-btn'
                     data-color={color}
                     style={{ backgroundColor: color }}
-                  ></button>
+                    onClick={(e) => eventHandler(e)}
+                    type='button'
+                  >
+                    {color === filters.color && <FaCheck />}
+                  </button>
                 );
               })}
             </div>
           </div>
+
+          {/* price */}
           <div className='form-control'>
             <h5>Price</h5>
-            <p className='price'>{formatPrice(filterCriteria.price)}</p>
+            <p className='price'>{formatPrice(filters.price)}</p>
             <input
               type='range'
               name='price'
-              value={filterCriteria.price}
+              value={filters.price}
               min={0}
-              max={max_price}
-              onChange={(e) =>
-                setFilterCriteria({
-                  ...filterCriteria,
-                  price: parseInt(e.target.value),
-                })
-              }
+              max={maxPrice}
+              onChange={(e) => eventHandler(e)}
             />
           </div>
-          <div className='form-control shipping'>
-            <label htmlFor='shipping'>Free Shipping</label>
-            <input
-              type='checkbox'
-              name='shipping'
-              id='shipping'
-              checked={filterCriteria.free_shipping}
-            />
-          </div>
+
+          {/* Reset */}
+          <button
+            className='clear-btn'
+            type='button'
+            onClick={() => clearFilters(all_products)}
+          >
+            Clear filters
+          </button>
         </form>
       </div>
     </Wrapper>

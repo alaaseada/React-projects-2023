@@ -15,3 +15,7 @@ export const getUniqueValues = (products, field) => {
   );
   return [...uniqueValues];
 };
+
+export const getMaxPrice = (products) => {
+  return Math.max(...products.map((p) => p.price));
+};
