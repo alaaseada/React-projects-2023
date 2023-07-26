@@ -13,7 +13,7 @@ export const getUniqueValues = (products, field) => {
       })
       .flat(1)
   );
-  return [...uniqueValues];
+  return ['all', ...uniqueValues];
 };
 
 export const getMaxPrice = (products) => {

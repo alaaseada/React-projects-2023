@@ -19,7 +19,7 @@ const ProductImages = ({ images }) => {
                   key={image.id}
                   src={image.thumbnails.small.url}
                   alt={image.filename}
-                  className={index === currentImageIndex && 'active'}
+                  className={index === currentImageIndex ? 'active' : null}
                   onClick={() => setCurrentImageIndex(index)}
                 />
               );

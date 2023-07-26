@@ -23,6 +23,8 @@ const initialState = {
     category: 'all',
     company: 'all',
     color: 'all',
+    min_price: 0,
+    max_price: 0,
     price: 0,
     shipping: false,
   },
@@ -39,12 +41,9 @@ export const FilterProvider = ({ children }) => {
   }, [products]);
 
   useEffect(() => {
-    dispatch({ type: SORT_PRODUCTS });
-  }, [products, state.sort_method]);
-
-  useEffect(() => {
     dispatch({ type: FILTER_PRODUCTS });
-  }, [products, state.filters]);
+    dispatch({ type: SORT_PRODUCTS });
+  }, [products, state.sort_method, state.filters]);
 
   const changeToGridView = () => {
     dispatch({ type: SET_GRIDVIEW });

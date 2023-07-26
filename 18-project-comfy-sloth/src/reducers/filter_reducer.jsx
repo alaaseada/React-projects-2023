@@ -13,13 +13,15 @@ import { getMaxPrice } from '../utils/helpers';
 const filter_reducer = (state, action) => {
   const action_type = action.type;
   if (action_type === LOAD_PRODUCTS) {
+    let max_price = getMaxPrice(action.payload.products);
     return {
       ...state,
       all_products: [...action.payload.products],
       filtered_products: [...action.payload.products],
       filters: {
         ...state.filters,
-        price: getMaxPrice(action.payload.products),
+        max_price: max_price,
+        price: max_price,
       },
     };
   }
@@ -56,53 +58,55 @@ const filter_reducer = (state, action) => {
     return { ...state, filtered_products: sorted_list };
   }
   if (action_type === UPDATE_FILTERS) {
-    return { ...state, filters: action.payload.filters };
+    return { ...state, filters: { ...action.payload.filters } };
   }
   if (action_type === FILTER_PRODUCTS) {
-    const filtered_products = state.all_products.filter((product) => {
-      const { name, colors, category, company, price, shipping } = product;
-      const condition = {};
-      if (state.filters.text) {
-        condition['name'] = `name.includes('${state.filters.text}')`;
-      }
+    let filtered_products = [...state.all_products];
+    const { text, color, category, company, price, shipping } = state.filters;
+    if (text) {
+      filtered_products = filtered_products.filter((p) =>
+        p.name.includes(text)
+      );
+    }
 
-      if (state.filters.category != 'all') {
-        condition['category'] = `category === '${state.filters.category}'`;
-      }
+    if (category !== 'all') {
+      filtered_products = filtered_products.filter(
+        (p) => p.category === category
+      );
+    }
 
-      if (state.filters.company != 'all') {
-        condition['company'] = `company === '${state.filters.company}'`;
-      }
+    if (company !== 'all') {
+      filtered_products = filtered_products.filter(
+        (p) => p.company === company
+      );
+    }
 
-      if (state.filters.color != 'all') {
-        condition['color'] = `colors.includes('${state.filters.color}')`;
-      }
+    if (color != 'all') {
+      filtered_products = filtered_products.filter((p) =>
+        p.colors.includes(color)
+      );
+    }
 
-      condition['price'] = `price <= ${state.filters.price}`;
+    filtered_products = filtered_products.filter((p) => p.price <= price);
 
-      if (state.filters.shipping) {
-        condition['shipping'] = 'shipping === true';
-      }
+    if (shipping) {
+      filtered_products = filtered_products.filter(
+        (p) => p.shipping <= shipping
+      );
+    }
 
-      if (Object.keys(condition).length < 1) {
-        return true;
-      }
-
-      const filter_statement = Object.values(condition).join(' && ');
-      console.log(filter_statement);
-      return eval(filter_statement);
-    });
     return { ...state, filtered_products: filtered_products };
   }
   if (action_type === CLEAR_FILTERS) {
     return {
       ...state,
       filters: {
+        ...state.filters,
         text: '',
         category: 'all',
         company: 'all',
         color: 'all',
-        price: getMaxPrice(action.payload.products),
+        price: state.filters.max_price,
         shipping: false,
       },
     };
