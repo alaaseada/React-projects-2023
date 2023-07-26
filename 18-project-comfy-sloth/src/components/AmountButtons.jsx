@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const AmountButtons = ({ amount, increaseAmount, decreaseAmount }) => {
+const AmountButtons = ({ amount, decreaseAmount, increaseAmount }) => {
   return (
     <Wrapper className='amount-btns'>
       <button className='amount-btn' onClick={decreaseAmount}>

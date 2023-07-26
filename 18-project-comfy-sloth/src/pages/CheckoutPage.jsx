@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { PageHero, StripeCheckout } from '../components';
 // extra imports
@@ -9,7 +8,7 @@ const CheckoutPage = () => {
   return (
     <main>
       <PageHero title='Checkout' />
-      <Wrapper className='page'></Wrapper>
+      <StripeCheckout />
     </main>
   );
 };

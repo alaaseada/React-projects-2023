@@ -5,13 +5,14 @@ import { FaCheck } from 'react-icons/fa';
 import { useCartContext } from '../context/cart_context';
 import AmountButtons from './AmountButtons';
 
-const AddToCart = ({ id, colors, stock }) => {
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
+const AddToCart = ({ product }) => {
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [amount, setAmount] = useState(1);
+  const { addToCart } = useCartContext();
 
   const increaseAmount = () => {
     setAmount((prevState) => {
-      return prevState < stock ? prevState + 1 : stock;
+      return prevState < product.stock ? prevState + 1 : product.stock;
     });
   };
 
@@ -23,11 +24,11 @@ const AddToCart = ({ id, colors, stock }) => {
 
   return (
     <Wrapper>
-      {colors && (
+      {product.colors && (
         <div className='colors'>
           <span>Colors: </span>
           <div>
-            {colors.map((color, index) => {
+            {product.colors.map((color, index) => {
               return (
                 <button
                   key={index}
@@ -50,7 +51,11 @@ const AddToCart = ({ id, colors, stock }) => {
           decreaseAmount={decreaseAmount}
           amount={amount}
         />
-        <Link to='/checkout' className='btn'>
+        <Link
+          to='/cart'
+          className='btn'
+          onClick={() => addToCart({ product, amount, selectedColor })}
+        >
           Add to cart
         </Link>
       </div>
