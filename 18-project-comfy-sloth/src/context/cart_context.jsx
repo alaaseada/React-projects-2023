@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useReducer } from 'react';
-import reducer from '../reducers/cart_reducer';
 import {
   ADD_TO_CART,
   REMOVE_CART_ITEM,
   TOGGLE_CART_ITEM_AMOUNT,
   CLEAR_CART,
   COUNT_CART_TOTALS,
+  LOAD_CART_FROM_STORAGE,
 } from '../actions';
 import cart_reducer from '../reducers/cart_reducer';
 
@@ -21,20 +21,37 @@ const CartContext = React.createContext();
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cart_reducer, initialState);
 
+  useEffect(() => {
+    const localCart = JSON.parse(localStorage.getItem('cart'));
+    if (localCart?.length > 0) {
+      dispatch({ type: LOAD_CART_FROM_STORAGE, payload: { localCart } });
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      'cart',
+      JSON.stringify(Array.from(state.cart.entries()))
+    );
+    dispatch({ type: COUNT_CART_TOTALS });
+  }, [state.cart]);
+
   const addToCart = (item) => {
     dispatch({ type: ADD_TO_CART, payload: { item } });
   };
 
-  const removeFromCart = (id) => {
+  const removeItemFromCart = (id) => {
     dispatch({ type: REMOVE_CART_ITEM, payload: { id } });
   };
 
   const clearCart = () => {
     dispatch({ type: CLEAR_CART });
+    localStorage.clear();
   };
 
   const countCartTotal = () => {
     dispatch({ type: COUNT_CART_TOTALS });
+    console.log('count');
   };
 
   const toggleCartItemAmount = (id, verb) => {
@@ -45,7 +62,7 @@ export const CartProvider = ({ children }) => {
       value={{
         ...state,
         addToCart,
-        removeFromCart,
+        removeItemFromCart,
         clearCart,
         countCartTotal,
         toggleCartItemAmount,
