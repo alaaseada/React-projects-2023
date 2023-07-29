@@ -5,12 +5,19 @@ import {
   TOGGLE_CART_ITEM_AMOUNT,
   CLEAR_CART,
   COUNT_CART_TOTALS,
-  LOAD_CART_FROM_STORAGE,
 } from '../actions';
 import cart_reducer from '../reducers/cart_reducer';
 
+const loadItemsFromLocalStorage = () => {
+  let localCart = localStorage.getItem('cart');
+  if (localCart) {
+    return new Map(JSON.parse(localCart));
+  }
+  return new Map();
+};
+
 const initialState = {
-  cart: new Map(),
+  cart: loadItemsFromLocalStorage(),
   total_items: 0,
   order_total: 0,
   shipping_fee: 534,
@@ -20,13 +27,6 @@ const CartContext = React.createContext();
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cart_reducer, initialState);
-
-  useEffect(() => {
-    const localCart = JSON.parse(localStorage.getItem('cart'));
-    if (localCart?.length > 0) {
-      dispatch({ type: LOAD_CART_FROM_STORAGE, payload: { localCart } });
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -54,8 +54,11 @@ export const CartProvider = ({ children }) => {
     console.log('count');
   };
 
-  const toggleCartItemAmount = (id, verb) => {
-    dispatch({ type: TOGGLE_CART_ITEM_AMOUNT, payload: { id, verb } });
+  const toggleCartItemAmount = (cart_item_id, verb) => {
+    dispatch({
+      type: TOGGLE_CART_ITEM_AMOUNT,
+      payload: { cart_item_id, verb },
+    });
   };
   return (
     <CartContext.Provider

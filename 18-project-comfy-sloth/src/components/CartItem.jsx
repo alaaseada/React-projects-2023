@@ -7,6 +7,11 @@ import { useCartContext } from '../context/cart_context';
 const CartItem = ({ product, amount, selectedColor }) => {
   const { toggleCartItemAmount, removeItemFromCart } = useCartContext();
   const { id, name, image, price } = product;
+  const cart_item_id = id + selectedColor;
+
+  const handleAmountChange = (verb) => {
+    toggleCartItemAmount(cart_item_id, verb);
+  };
 
   return (
     <Wrapper>
@@ -22,11 +27,14 @@ const CartItem = ({ product, amount, selectedColor }) => {
       <h5 className='price'>{formatPrice(price)}</h5>
       <AmountButtons
         amount={amount}
-        increaseAmount={() => toggleCartItemAmount(id, 'increase')}
-        decreaseAmount={() => toggleCartItemAmount(id, 'decrease')}
+        increaseAmount={() => handleAmountChange('increase')}
+        decreaseAmount={() => handleAmountChange('decrease')}
       />
       <h5 className='subtotal'>{formatPrice(price * amount)}</h5>
-      <button className='remove-btn' onClick={() => removeItemFromCart(id)}>
+      <button
+        className='remove-btn'
+        onClick={() => removeItemFromCart(cart_item_id)}
+      >
         <FaTrash />
       </button>
     </Wrapper>

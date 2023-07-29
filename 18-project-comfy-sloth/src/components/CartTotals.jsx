@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useCartContext } from '../context/cart_context';
 import { useUserContext } from '../context/user_context';
@@ -25,7 +24,7 @@ const CartTotals = () => {
         </article>
         {userLoggedIn ? (
           <Link to='/checkout' className='btn'>
-            Checkout
+            Proceed to Checkout
           </Link>
         ) : (
           <Link to='/login' className='btn'>
