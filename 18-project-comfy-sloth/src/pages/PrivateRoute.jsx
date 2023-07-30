@@ -1,13 +1,13 @@
 import React, { Children, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-// will remove later
-import { useUserContext } from '../context/user_context';
 
 const PrivateRoute = ({ children }) => {
-  const { loggedInUser } = useUserContext();
-  console.log(loggedInUser);
-  if (!loggedInUser) {
+  const { user } = useAuth0();
+  // localStorage.getItem('user')
+  //   ? JSON.parse(localStorage.getItem('user'))
+  //   : null;
+  if (!user) {
     return <Navigate to='/' />;
   }
   return children;

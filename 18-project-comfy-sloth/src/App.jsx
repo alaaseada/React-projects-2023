@@ -9,6 +9,7 @@ import {
   CheckoutPage,
   ErrorPage,
   PrivateRoute,
+  AuthWrapper,
 } from './pages';
 
 const app_router = createBrowserRouter([
@@ -56,7 +57,11 @@ const app_router = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={app_router} />;
+  return (
+    <AuthWrapper>
+      <RouterProvider router={app_router} />;
+    </AuthWrapper>
+  );
 }
 
 export default App;

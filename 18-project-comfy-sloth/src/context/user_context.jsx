@@ -3,17 +3,18 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
-  const { isAuthenticated, loginWithRedirect, logout, user, isLoading } =
-    useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       setLoggedInUser(user);
+      // localStorage.setItem('user', JSON.stringify(user));
     } else {
       setLoggedInUser(null);
+      // localStorage.setItem('user', JSON.stringify(null));
     }
-  }, [isAuthenticated]);
+  }, [user]);
 
   const logUserIn = () => {
     loginWithRedirect();
@@ -30,7 +31,6 @@ export const UserProvider = ({ children }) => {
         logUserOut,
         loggedInUser,
         isAuthenticated,
-        isLoading,
       }}
     >
       {children}
