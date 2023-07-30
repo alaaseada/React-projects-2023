@@ -9,6 +9,8 @@ import { useUserContext } from '../context/user_context';
 
 const Nav = () => {
   const { openSidebar } = useProductsContext();
+  const { loggedInUser } = useUserContext();
+
   return (
     <NavContainer>
       <div className='nav-center'>
@@ -24,11 +26,16 @@ const Nav = () => {
           {links.map((link) => {
             const { id, text, url } = link;
             return (
-              <Link key={id} to={url}>
-                {text}
-              </Link>
+              <li key={id}>
+                <Link to={url}>{text}</Link>
+              </li>
             );
           })}
+          {loggedInUser && (
+            <li>
+              <Link to='/checkout'>Checkout</Link>
+            </li>
+          )}
         </div>
         <CartButtons />
       </div>
@@ -74,6 +81,9 @@ const NavContainer = styled.nav`
   @media (min-width: 992px) {
     .nav-toggle {
       display: none;
+    }
+    li {
+      list-style-type: none;
     }
     .nav-center {
       display: grid;

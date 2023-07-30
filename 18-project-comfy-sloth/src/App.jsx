@@ -15,7 +15,6 @@ const app_router = createBrowserRouter([
   {
     path: '/',
     element: <SharedLayout />,
-    // errorElement: <ErrorPage />,
     children: [
       {
         index: true,
