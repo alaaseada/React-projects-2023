@@ -2,3 +2,5 @@
   command = "vite dev"
   targetPort=5173
   port=8888
+[build]
+  functions='./netlify/functions'

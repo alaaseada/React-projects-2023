@@ -51,7 +51,6 @@ export const CartProvider = ({ children }) => {
 
   const countCartTotal = () => {
     dispatch({ type: COUNT_CART_TOTALS });
-    console.log('count');
   };
 
   const toggleCartItemAmount = (cart_item_id, verb) => {

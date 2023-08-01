@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -11,21 +11,112 @@ import axios from 'axios';
 import { useCartContext } from '../context/cart_context';
 import { useUserContext } from '../context/user_context';
 import { formatPrice } from '../utils/helpers';
-// import { useHistory } from 'react-router-dom'
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_API_PUBLIC_KEY);
 const CheckoutForm = () => {
-  return <h4>hello from Stripe Checkout </h4>;
+  const { cart, order_total, shipping_fee, clearCart } = useCartContext();
+  const { loggedInUser } = useUserContext();
+
+  // STRIPE STUFF
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState('');
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const cardStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#32325d',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  };
+
+  const createPaymentIntent = async () => {
+    console.log('Hello we are showing our intent to collect payments');
+    const response = await axios.post(
+      '/.netlify/functions/create-payment-intent',
+      { cart: Array.from(cart.values()), order_total, shipping_fee }
+    );
+    const data = await response.data;
+    console.log(data);
+  };
+
+  const handleChange = async (event) => {};
+  const handleSubmit = async (ev) => {};
+
+  useEffect(() => {
+    createPaymentIntent();
+  }, []);
+
+  return (
+    <>
+      <div>
+        <article>
+          <h4>hello, {loggedInUser?.name} </h4>
+          <p>Your total is {formatPrice(order_total)}</p>
+        </article>
+      </div>
+      <form className='payment-form' onSubmit={handleSubmit}>
+        <CardElement
+          id='card-element'
+          onChange={handleChange}
+          options={cardStyle}
+        />
+        <button disabled={processing || succeeded || disabled} id='submit'>
+          <span className='button-text'>
+            {processing ? <div className='spinner' id='spinner'></div> : 'Pay'}
+          </span>
+        </button>
+        {/* Show errors that happened while processing the payment */}
+        {error && (
+          <div className='card-error' role='alert'>
+            {error}
+          </div>
+        )}
+        {/* Show success message on completion */}
+        <p className={succeeded ? 'result-message' : 'result-message hidden'}>
+          Payment succeeded. check the payment on{' '}
+          <a href='https://dashboard.stripe.com/test/payments'>
+            your stripe dashboard
+          </a>
+        </p>
+      </form>
+    </>
+  );
 };
 
 const StripeCheckout = () => {
   return (
     <Wrapper>
-      <CheckoutForm />
+      <Elements stripe={stripePromise}>
+        <CheckoutForm />
+      </Elements>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
+  .empty {
+    text-align: center;
+    h2 {
+      margin-bottom: 1rem;
+      text-transform: none;
+    }
+  }
   form {
     width: 30vw;
     align-self: center;

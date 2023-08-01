@@ -6,7 +6,13 @@ import { useUserContext } from '../context/user_context';
 
 const CartButtons = () => {
   const { logUserIn, logUserOut, loggedInUser } = useUserContext();
-  const { total_items } = useCartContext();
+  const { total_items, clearCart } = useCartContext();
+
+  const clearCartAndLogout = () => {
+    clearCart();
+    logUserOut();
+  };
+
   return (
     <Wrapper className='cart-btn-wrapper'>
       <Link className='cart-btn' to='/cart'>
@@ -17,7 +23,7 @@ const CartButtons = () => {
         </span>
       </Link>
       {loggedInUser ? (
-        <button className='auth-btn' type='button' onClick={logUserOut}>
+        <button className='auth-btn' type='button' onClick={clearCartAndLogout}>
           Logout <FaUserMinus />
         </button>
       ) : (
