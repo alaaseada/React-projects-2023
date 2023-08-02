@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useCartContext } from '../context/cart_context';
 import { useUserContext } from '../context/user_context';
 import { formatPrice } from '../utils/helpers';
+import { Navigate } from 'react-router-dom';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_API_PUBLIC_KEY);
 const CheckoutForm = () => {
@@ -46,17 +47,43 @@ const CheckoutForm = () => {
   };
 
   const createPaymentIntent = async () => {
-    console.log('Hello we are showing our intent to collect payments');
-    const response = await axios.post(
-      '/.netlify/functions/create-payment-intent',
-      { cart: Array.from(cart.values()), order_total, shipping_fee }
-    );
-    const data = await response.data;
-    console.log(data);
+    try {
+      const response = await axios.post(
+        '/.netlify/functions/create-payment-intent',
+        { cart: Array.from(cart.values()), order_total, shipping_fee }
+      );
+      const data = await response.data;
+      setClientSecret(data.clientSecret);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
-  const handleChange = async (event) => {};
-  const handleSubmit = async (ev) => {};
+  const handleChange = async (event) => {
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : '');
+  };
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+      },
+    });
+    if (payload.error) {
+      setError(`Payment failed : ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setProcessing(false);
+      setSucceeded(true);
+      setError(null);
+      setTimeout(() => {
+        clearCart();
+        Navigate('/');
+      }, 10000);
+    }
+  };
 
   useEffect(() => {
     createPaymentIntent();
@@ -65,10 +92,18 @@ const CheckoutForm = () => {
   return (
     <>
       <div>
-        <article>
-          <h4>hello, {loggedInUser?.name} </h4>
-          <p>Your total is {formatPrice(order_total)}</p>
-        </article>
+        {succeeded ? (
+          <article>
+            <h4>Thank you!</h4>
+            <h4>Your payment was successful</h4>
+          </article>
+        ) : (
+          <article>
+            <h4>hello, {loggedInUser?.name} </h4>
+            <p>Your total is {formatPrice(shipping_fee + order_total)}</p>
+            <p>Test Card Number: 4242 4242 4242 4242</p>
+          </article>
+        )}
       </div>
       <form className='payment-form' onSubmit={handleSubmit}>
         <CardElement
