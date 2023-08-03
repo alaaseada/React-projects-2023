@@ -16,7 +16,7 @@ const Nav = () => {
       <div className='nav-center'>
         <div className='nav-header'>
           <Link to='/'>
-            <img src={logo} alt={'Comfy Sloth'} />
+            <img src={logo} alt={'gadgets junkie'} />
             {/* <h1>
               <span>Gadget</span> Junkie
             </h1> */}
@@ -62,8 +62,7 @@ const NavContainer = styled.nav`
     align-items: center;
     justify-content: space-between;
     img {
-      width: 175px;
-      margin-left: -15px;
+      width: 250px;
     }
   }
   .nav-toggle {

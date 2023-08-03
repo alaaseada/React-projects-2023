@@ -6,13 +6,17 @@ export const formatPrice = (number) => {
 };
 
 export const getUniqueValues = (products, field) => {
+  console.log(products);
   const uniqueValues = new Set(
     products
       .map((product) => {
-        return product[field];
+        return typeof product[field] === 'object'
+          ? product[field][field]
+          : product[field];
       })
       .flat(1)
   );
+  console.log(uniqueValues);
   return ['all', ...uniqueValues];
 };
 

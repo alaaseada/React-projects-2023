@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <Wrapper>
       <h5>
-        &copy;{current_year} <span>Comfy Sloth</span> All rights reserved
+        &copy;{current_year} <span>Gadgets Junkie</span> All rights reserved
       </h5>
     </Wrapper>
   );

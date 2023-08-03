@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useContext, useEffect, useReducer, createContext } from 'react';
 import reducer from '../reducers/products_reducer';
 import {
-  products_url as url,
+  contentful_products_url as url,
   single_product_url as single_url,
 } from '../utils/constants';
+import { createClient } from 'contentful';
 
 import {
   SIDEBAR_OPEN,
@@ -28,6 +29,10 @@ const initialState = {
   product_error: false,
 };
 
+const client = createClient({
+  accessToken: import.meta.env.VITE_CONTENT_DELIVERY_ACCESS_TOKEN,
+  space: import.meta.env.VITE_CONTENTFUL_SPACE_ID,
+});
 const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
@@ -44,9 +49,13 @@ export const ProductsProvider = ({ children }) => {
   const fetchProducts = async (url) => {
     dispatch({ type: GET_PRODUCTS_BEGIN });
     try {
-      const { data: products } = await axios.get(url);
+      const { items } = await client.getEntries({ content_type: 'products' });
+      const products = items.map((item) => {
+        return { id: item.sys.id, ...item.fields };
+      });
       dispatch({ type: GET_PRODUCTS_SUCCESS, payload: { products } });
     } catch (error) {
+      console.log(error);
       dispatch({ type: GET_PRODUCTS_ERROR });
     }
   };
@@ -54,7 +63,9 @@ export const ProductsProvider = ({ children }) => {
   const fetchSingleProduct = async (id) => {
     try {
       dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
-      const { data } = await axios.get(`${single_url}${id}`);
+      const result = await client.getEntry(id);
+      console.log(result);
+      const data = [];
       dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: { data } });
     } catch (err) {
       dispatch({ type: GET_SINGLE_PRODUCT_ERROR });

@@ -42,3 +42,7 @@ export const services = [
 export const products_url = 'https://course-api.com/react-store-products';
 
 export const single_product_url = `https://course-api.com/react-store-single-product?id=`;
+
+export const contentful_products_url = `https://graphql.contentful.com/content/v1/spaces/${
+  import.meta.env.VITE_CONTENTFUL_SPACE_ID
+}`;
