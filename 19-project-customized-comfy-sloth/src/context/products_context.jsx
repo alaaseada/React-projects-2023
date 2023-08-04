@@ -64,9 +64,8 @@ export const ProductsProvider = ({ children }) => {
     try {
       dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
       const result = await client.getEntry(id);
-      console.log(result);
-      const data = [];
-      dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: { data } });
+      const product = { id: result.sys.id, ...result.fields };
+      dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: { product } });
     } catch (err) {
       dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
     }

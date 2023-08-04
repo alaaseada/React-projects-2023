@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const ProductImages = ({ images }) => {
+  const product_images = images?.map((image) => {
+    return {
+      id: image.sys.id,
+      url: image.fields.file.url,
+      filename: image.fields.file.filename,
+    };
+  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   return (
     <Wrapper>
       {images && (
         <>
           <img
-            src={images[currentImageIndex].url}
+            src={product_images[currentImageIndex].url}
             alt='main image'
             className='main'
           />
           <div className='gallery'>
-            {images.map((image, index) => {
+            {product_images.map((image, index) => {
               return (
                 <img
                   key={image.id}
-                  src={image.thumbnails.small.url}
+                  src={image.thumbnails?.small?.url || image.url}
                   alt={image.filename}
                   className={index === currentImageIndex ? 'active' : null}
                   onClick={() => setCurrentImageIndex(index)}

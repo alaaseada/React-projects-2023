@@ -6,7 +6,9 @@ const ListView = ({ products }) => {
   return (
     <Wrapper>
       {products.map((product) => {
-        const { id, name, image, price, description } = product;
+        const { id, name, images, price, description } = product;
+        const image = images[0]?.fields.file.url;
+
         return (
           <article key={id}>
             <img src={image} alt={name} />

@@ -6,10 +6,10 @@ import { useCartContext } from '../context/cart_context';
 import AmountButtons from './AmountButtons';
 
 const AddToCart = ({ product }) => {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  console.log(product);
+  const [selectedColor, setSelectedColor] = useState(product.colors.colors[0]);
   const [amount, setAmount] = useState(1);
   const { addToCart } = useCartContext();
-
   const increaseAmount = () => {
     setAmount((prevState) => {
       return prevState < product.stock ? prevState + 1 : product.stock;
@@ -24,11 +24,11 @@ const AddToCart = ({ product }) => {
 
   return (
     <Wrapper>
-      {product.colors && (
+      {product.colors.colors && (
         <div className='colors'>
           <span>Colors: </span>
           <div>
-            {product.colors.map((color, index) => {
+            {product.colors.colors.map((color, index) => {
               return (
                 <button
                   key={index}
@@ -60,9 +60,7 @@ const AddToCart = ({ product }) => {
                 id: product.id,
                 name: product.name,
                 stock: product.stock,
-                image:
-                  product.images[0]?.thumbnails?.small?.url ||
-                  product.images[0].url,
+                image: product.images[0]?.fields?.file?.url,
                 price: product.price,
               },
               amount,

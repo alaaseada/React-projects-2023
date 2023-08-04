@@ -7,13 +7,14 @@ import CartTotals from './CartTotals';
 
 const CartContent = ({ cart }) => {
   const { clearCart } = useCartContext();
-
+  console.log('cart=', cart);
   return (
     <Wrapper className='section section-center'>
       <CartColumns />
       {cart.map((item) => {
-        const { id, selectedColor } = item;
-        return <CartItem key={id + selectedColor} {...item} />;
+        return (
+          <CartItem key={item.product.id + item.selectedColor} {...item} />
+        );
       })}
       <hr />
       <div className='link-container'>

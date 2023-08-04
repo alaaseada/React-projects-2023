@@ -65,25 +65,25 @@ const filter_reducer = (state, action) => {
     const { text, color, category, company, price, shipping } = state.filters;
     if (text) {
       filtered_products = filtered_products.filter((p) =>
-        p.name.includes(text)
+        p.name.toLowerCase().includes(text.toLowerCase())
       );
     }
 
     if (category !== 'all') {
       filtered_products = filtered_products.filter(
-        (p) => p.category === category
+        (p) => p.category.toLowerCase() === category.toLowerCase()
       );
     }
 
     if (company !== 'all') {
       filtered_products = filtered_products.filter(
-        (p) => p.company === company
+        (p) => p.company.toLowerCase() === company.toLowerCase()
       );
     }
 
     if (color != 'all') {
       filtered_products = filtered_products.filter((p) =>
-        p.colors.includes(color)
+        p.colors.colors.includes(color)
       );
     }
 
