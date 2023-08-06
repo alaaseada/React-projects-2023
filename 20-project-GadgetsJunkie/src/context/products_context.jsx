@@ -43,15 +43,10 @@ export const ProductsProvider = ({ children }) => {
   const fetchProducts = async (url) => {
     dispatch({ type: GET_PRODUCTS_BEGIN });
     try {
-      const {
-        data: { records: products_ },
-      } = await axios.get(url);
-      const new_products = products_.map((p) => {
-        return { id: p.id, ...p.fields };
-      });
+      const { data: products } = await axios.get(url);
       dispatch({
         type: GET_PRODUCTS_SUCCESS,
-        payload: { products: new_products },
+        payload: { products },
       });
     } catch (error) {
       dispatch({ type: GET_PRODUCTS_ERROR });

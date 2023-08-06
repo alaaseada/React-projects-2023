@@ -6,7 +6,6 @@ export const formatPrice = (number) => {
 };
 
 export const getUniqueValues = (products, field) => {
-  console.log(products);
   const uniqueValues = new Set(
     products
       ?.map((product) => {
