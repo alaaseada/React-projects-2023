@@ -1,35 +1,30 @@
-import { useState } from 'react';
-import Form from './Form';
-import ColorList from './ColorList';
-import Values from 'values.js';
-import { ToastContainer, toast } from 'react-toastify';
+import Selector from './Selector'
+import { useState } from 'react'
+import ColorPalette from './ColorPalette'
+import Values from 'values.js'
 
-function App() {
-  const [colorList, setColorList] = useState(new Values('#f15025').all(10));
+const App = () => {
+  const [color, setColor] = useState('')
+  const [shades, setShades] = useState([])
 
-  const createColorList = (color) => {
-    try {
-      const valid_color = /^(#)([0-9A-Fa-f]{2}){3}/.exec(color);
-      if (!valid_color)
-        throw Error(
-          'Cannot create the color list of this color. Invalid color.'
-        );
-      const color_values = new Values(color).all(10);
-      if (!color_values)
-        throw Error('Cannot create the color list of this color.');
-      setColorList(color_values);
-    } catch (err) {
-      toast.error(`An error has occurred! ${err}`);
-    }
-  };
+  const generateColorPalette = (e) => {
+    e.preventDefault()
+    const shadesList = new Values(color).all(10)
+    setShades(shadesList)
+  }
 
+  const changeColor = (e) => {
+    setColor(e.target.value)
+  }
   return (
-    <main>
-      <ToastContainer position='top-center' />
-      <Form createColorList={createColorList} />
-      <ColorList colorList={colorList} />
-    </main>
-  );
+    <>
+      <Selector
+        generateColorPalette={generateColorPalette}
+        color={color}
+        changeColor={changeColor}
+      />
+      <ColorPalette colorShades={shades} />
+    </>
+  )
 }
-
-export default App;
+export default App

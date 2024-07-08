@@ -311,6 +311,7 @@ input[type='color'] {
 
 .color-light .color-value {
   color: var(--white);
+  text-transform: uppercase;
 }
 .color-light .percent-value {
   color: var(--white);
