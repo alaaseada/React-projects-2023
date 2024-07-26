@@ -8,7 +8,7 @@ function Gallery() {
   if (isLoading) {
     return (
       <div className='image-container'>
-        <h4>Loading....</h4>
+        <div className="loading"></div>
       </div>
     );
   }
