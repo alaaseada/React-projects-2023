@@ -3,7 +3,7 @@ import { useGlobalContext } from './Context';
 
 function Gallery() {
   const { keyword } = useGlobalContext();
-  const { data, isLoading, isError } = useFetchImages(keyword);
+  const { data, isLoading, isError, error } = useFetchImages(keyword);
 
   if (isLoading) {
     return (
@@ -12,7 +12,7 @@ function Gallery() {
   }
   if (isError) {
     return (
-        <h4>Something wrong occurred</h4>
+        <h4>Something wrong occurred {error}</h4>
     );
   }
   if (!data?.results.length) {
