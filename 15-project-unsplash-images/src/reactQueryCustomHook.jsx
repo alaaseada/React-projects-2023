@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const baseURL = 'https://api.unsplash.com';
 export const useFetchImages = (keyword) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['filterImages', keyword],
     queryFn: async () => {
       const url = `${baseURL}/search/photos?query=${keyword}&page=1&client_id=${
@@ -17,6 +17,7 @@ export const useFetchImages = (keyword) => {
   return {
     data,
     isError,
+    error,
     isLoading,
   };
 };
