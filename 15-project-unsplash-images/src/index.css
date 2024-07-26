@@ -342,7 +342,9 @@ Search Form
 
   /* border-right: none; */
 }
-
+.search-input:focus{
+  outline: none;
+}
 .search-form .btn {
   border-radius: 0;
 }
