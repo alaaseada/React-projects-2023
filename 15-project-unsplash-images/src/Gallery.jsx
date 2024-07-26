@@ -12,9 +12,7 @@ function Gallery() {
   }
   if (isError) {
     return (
-      <div className='image-container'>
         <h4>Something wrong occurred</h4>
-      </div>
     );
   }
   if (!data?.results.length) {
